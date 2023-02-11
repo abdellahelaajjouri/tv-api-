@@ -32,9 +32,10 @@ const Nav = () => {
     .catch((err) => console.error(err));
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter" && value != "") {
+    if (event.key === "Enter" && value !== "") {
       setSearch(value);
     }
+    if(value ===""){setSearch(value)}
   };
 
   const onChange = (event) => setValue(event.target.value);
@@ -75,7 +76,11 @@ const Nav = () => {
                   return (
                     <div
                       key={index}
-                      onClick={() => navigate(`TvF/${t.show.id}`)}
+                      onClick={() =>{
+                        navigate(`TvF/${t.show.id}`)
+                        setSearch('')
+                      }
+                         }
                       className="w-80 border rounded-2xl px-2 flex items-center m-4 py-4"
                     >
                       <div className="h-[80px] w-[80px]  ">
@@ -106,7 +111,7 @@ const Nav = () => {
               value={value}
               onChange={onChange}
               onKeyDown={handleKeyDown}
-              type="text"
+              type="search"
               id="search-navbar"
               className="  md:my-0 my-5  md:w-80 w-64 p-2 h-12 pl-10 text-sm text-gray-100 border  border-gray-100 rounded-lg bg-transparent "
               placeholder="Search..."

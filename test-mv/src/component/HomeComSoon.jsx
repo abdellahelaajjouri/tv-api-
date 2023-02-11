@@ -1,10 +1,8 @@
 import React from "react";
 import Star from "../assets/star.png";
-import { useEffect, useState  } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Play from "../assets/bouton-jouer.png";
-
-
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -22,7 +20,7 @@ function HomeComSoon() {
   const navigate = useNavigate();
   useEffect(() => {
     fetch(
-      "https://api.themoviedb.org/3/movie/popular?api_key=08399bf740a4d93d9e75e8a3a6917e88&language=en-US&page=1"
+      "https://api.themoviedb.org/3/movie/upcoming?api_key=08399bf740a4d93d9e75e8a3a6917e88&language=en-US&page=3"
     )
       .then((res) => res.json())
       .then((data) => {
@@ -32,10 +30,16 @@ function HomeComSoon() {
   const [movies, setMovies] = useState([]);
   return (
     <>
-      <div className="my-10 ">
+      <div className="my-10  container mx-auto">
         <h1 className="text-white text-md  mb-8">
           Coming Soon{" "}
-          <span className="text-md text-[#D32444] mx-2" onClick={() => navigate(`AllMovies`)} style={{cursor :' pointer'}} >See More</span>
+          <span
+            className="text-md text-[#D32444] mx-2"
+            onClick={() => navigate(`AllMv`)}
+            style={{ cursor: " pointer" }}
+          >
+            See More
+          </span>
         </h1>
 
         <Swiper
@@ -54,12 +58,21 @@ function HomeComSoon() {
               spaceBetween: 20,
             },
             "@1.00": {
-              slidesPerView: 3,
+              slidesPerView: 2,
               spaceBetween: 40,
             },
-            "@1.50": {
+
+            "@1.75": {
+              slidesPerView: 3,
+              spaceBetween: 10,
+            },
+            "@2.00": {
+              slidesPerView: 3,
+              spaceBetween: 10,
+            },
+            "@2.30": {
               slidesPerView: 4,
-              spaceBetween: 50,
+              spaceBetween: 10,
             },
           }}
           modules={[Pagination]}
@@ -92,7 +105,6 @@ function HomeComSoon() {
                           <img src={Star} className="w-6 " alt="" />
                           <p className="mx-1 ">{movie.vote_average}/10</p>
                         </div>
-                        <p>126min</p>
                         <span className="border rounded-xl px-2">
                           {movie.release_date}
                         </span>
