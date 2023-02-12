@@ -9,7 +9,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-
 import "./styles.css";
 
 // import required modules
@@ -18,10 +17,12 @@ import { Pagination } from "swiper";
 function HomeTvShows() {
   const navigate = useNavigate();
   useEffect(() => {
-    fetch("https://api.tvmaze.com/shows?page=1")
+    fetch(
+      "https://api.themoviedb.org/3/tv/top_rated?api_key=08399bf740a4d93d9e75e8a3a6917e88&language=en-US&page=1"
+    )
       .then((res) => res.json())
-      .then((data2) => {
-        setTvShows(data2);
+      .then((data) => {
+        setTvShows(data.results);
       });
   }, []);
   const [tvShows, setTvShows] = useState([]);
@@ -78,28 +79,24 @@ function HomeTvShows() {
                         onClick={() => navigate(`TvF/${tvShow.id}`)}
                       >
                         <div className="h-[300px] w-full  ">
-                          {tvShow.image && tvShow.image.medium ? (
-                            <img
-                              src={tvShow.image.medium}
-                              className="w-full h-full rounded-xl"
-                              alt="tvShow"
-                            />
-                          ) : (
-                            <p>No Image Available</p>
-                          )}
+                          <img
+                            src={`https://image.tmdb.org/t/p/original${tvShow.poster_path}`}
+                            className="w-full h-full rounded-xl"
+                            alt="tvShow"
+                          />
                         </div>
                         <h1 className="m-2 h-10">{tvShow.name}</h1>
                         <div className="flex items-center justify-between px-1">
                           <div className="flex items-center ">
                             <img src={Star} className="w-6 " alt="" />
                             <p className="mx-1 ">
-                              {tvShow.rating.average == null
+                              {tvShow.vote_average == null
                                 ? "8.6"
-                                : tvShow.rating.average}
+                                : tvShow.vote_average}
                             </p>
                           </div>
                           <span className="border rounded-xl text-[10px] p-1 ">
-                            {tvShow.premiered}
+                            {tvShow.first_air_date}
                           </span>
                         </div>
                       </div>

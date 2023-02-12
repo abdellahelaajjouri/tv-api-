@@ -3,25 +3,37 @@ import { useNavigate } from "react-router-dom";
 import Star from "../assets/star.png";
 const AnimePage = () => {
   const navigate = useNavigate();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [anime, setAnime] = useState([]);
+    const [keyword, setKeyword] = useState('');
+
 
   useEffect(() => {
-    fetch("https://api.jikan.moe/v4/anime?page=1")
+    fetch(`https://api.jikan.moe/v4/anime?${pageNumber}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data.data);
         setAnime(data.data);
       });
   }, []);
-  const [anime, setAnime] = useState([]);
+  const loadMore = () => {
+    fetch(`https://api.jikan.moe/v4/anime?page=${pageNumber + 1}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setAnime([...anime, ...data.data]);
+      });
+
+    setPageNumber(pageNumber + 1);
+  };
   return (
     <div className="pt-32 mb-5  ">
       <div className="flex items-center mb-5 justify-between flex-wrap container mx-auto">
         <h1 className="text-white text-md w-32   ">All Anime </h1>
       </div>
       <div className="w-full flex-wrap flex text-white items-center justify-center ">
-        {anime.map((an) => {
+        {anime.map((an , index) => {
           return an ? (
-            <div className="m-5 flex text-white items-center justify-center  ">
+            <div key={index} className="m-5 flex text-white items-center justify-center  ">
               <div
                 onClick={() => {
                   navigate(`AnimeInfo/${an.mal_id}`);
@@ -53,6 +65,7 @@ const AnimePage = () => {
           );
         })}
       </div>
+      <button onClick={loadMore}>See more</button>
     </div>
   );
 };

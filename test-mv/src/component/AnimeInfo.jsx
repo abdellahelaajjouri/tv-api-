@@ -4,6 +4,7 @@ import Star from "../assets/star.png";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import ReactPlayer from "react-player";
 import Quiter from "../assets/retirer.png";
 
 const AnimeInfo = () => {
@@ -99,7 +100,7 @@ const AnimeInfo = () => {
         </div>
       </div>
 
-      <div
+      {/* <div
         className={
           hide === false
             ? "hidden "
@@ -129,6 +130,25 @@ const AnimeInfo = () => {
             <img src={Quiter} alt="" />
           </span>
         </div>
+      </div> */}
+
+      <div
+        className={
+          hide === false
+            ? "hidden "
+            : " block  w-full md:h-full h-[1200px] flex justify-center items-center absolute top-0 backdrop-blur-sm bg-black/60"
+        }
+        onClick={() => {
+          // Toggle the visibility of the dropdown menu
+          setHide(!hide);
+        }}
+      >
+        <ReactPlayer
+          className="relative react-player"
+          url={
+anime.trailer && anime.trailer.embed_url          }
+          controls
+        />
       </div>
     </>
   );
